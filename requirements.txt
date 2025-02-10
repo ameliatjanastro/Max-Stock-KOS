@@ -4,3 +4,4 @@ ipywidgets
 notebook
 voila
 numpy
+openpyxl
