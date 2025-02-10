@@ -2,3 +2,5 @@ pandas
 plotly
 ipywidgets
 notebook
+voila
+numpy
