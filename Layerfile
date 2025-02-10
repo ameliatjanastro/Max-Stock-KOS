@@ -1,0 +1,14 @@
+FROM python:3.9
+
+# Install dependencies
+RUN pip install voila pandas numpy openpyxl jupyter-server
+
+# Clone your repository
+WORKDIR /app
+COPY . /app
+
+# Expose the correct port
+EXPOSE 8866
+
+# Run Voilà on the notebook
+CMD ["voila", "SO_KOS.ipynb", "--port=8866", "--no-browser", "--Voila.ip=0.0.0.0"]
