@@ -7,7 +7,7 @@ import streamlit as st
 pd.options.mode.chained_assignment = None  
 
 # Load data
-data = pd.read_csv('stock_kos.csv', delimiter=";", engine="python")
+data = pd.read_excel('stock_kos.xlsx')
 
 # Select relevant columns
 stock = data[['Date', 'Product ID', 'Product Name', 'Start Available Stock', 'Inbound from PO', 'Inbound from SO Act Qty']]
