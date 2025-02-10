@@ -1,7 +1,7 @@
+voila
 pandas
 plotly
 ipywidgets
 notebook
-voila
 numpy
 openpyxl
