@@ -19,6 +19,19 @@ def preprocess_data():
     
     # Merge datasets
     data = stock_data.merge(pareto_data, on='Product ID', how='left')
+
+    # Define the custom order for Pareto classes
+    pareto_order = ["X", "A", "B", "C", "D", "New SKU A", "New SKU B", "New SKU C", "New SKU D", "No Sales L3M"]
+
+    # Convert the Pareto column to categorical with the custom order
+    data["New Pareto A-D (Monthly)"] = pd.Categorical(
+        data["New Pareto A-D (Monthly)"], 
+        categories=pareto_order, 
+        ordered=True
+    )
+
+    # Sort data based on Pareto class order
+    data = data.sort_values("New Pareto A-D (Monthly)")
     
     for col in ['Start Available Stock', 'Inbound from PO', 'Inbound from SO Act Qty']:
         data[col] = pd.to_numeric(data[col], downcast='float')
@@ -33,7 +46,7 @@ def preprocess_data():
     monthly_max = data.groupby(['Product ID', 'Month'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
     # Ensure sorting by proper date
     monthly_max = monthly_max.sort_values(by="Month")
-    monthly_max['Month'] = monthly_max['Month'].dt.strftime('%b-%y')
+    monthly_max['Month_str'] = monthly_max['Month'].dt.strftime('%b-%y')
     product_mapping = data[['Product ID', 'Product Name']].drop_duplicates().set_index('Product ID')['Product Name'].to_dict()
     
     return weekly_max, monthly_max, product_mapping, data
