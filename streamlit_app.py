@@ -115,11 +115,16 @@ fig.update_layout(
 )
 
 # Make marker values bold
-fig.update_traces(
-    text=data['Max Total Qty Daily (Beginning + PO)'],  # Add quantity text
-    textposition='top center',  # Position text above markers
-    texttemplate="<b>%{text}</b>"  # Bold text formatting
-)
+# Manually add bold annotations for marker values
+for i, row in data.iterrows():
+    fig.add_annotation(
+        x=row[x_col], 
+        y=row['Max Total Qty Daily (Beginning + PO)'], 
+        text=f"<b>{row['Max Total Qty Daily (Beginning + PO)']}</b>", 
+        showarrow=False, 
+        font=dict(size=12, color="black"),
+        yshift=10  # Move text slightly above the marker
+    )
 
 # Refresh only the graph, not the whole UI
 graph_placeholder.empty()
