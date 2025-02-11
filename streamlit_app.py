@@ -51,7 +51,7 @@ total_products = len(filtered_products_info)
 st.sidebar.markdown(f"**Total Products in {selected_pareto}: {total_products}**")
 
 # Create a dropdown format "Product ID - Product Name"
-filtered_products_info['Dropdown Label'] = filtered_products_info['Product ID'] + " - " + filtered_products_info['Product Name']
+filtered_products_info['Dropdown Label'] = filtered_products_info['Product ID'].astype(str) + " - " + filtered_products_info['Product Name']
 
 # Map the selection back to Product ID
 product_dict = dict(zip(filtered_products_info['Dropdown Label'], filtered_products_info['Product ID']))
