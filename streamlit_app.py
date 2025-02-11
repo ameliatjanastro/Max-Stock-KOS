@@ -123,6 +123,7 @@ for i, row in data.iterrows():
         text=f"<b>{row['Max Total Qty Daily (Beginning + PO)']}</b>", 
         showarrow=False, 
         font=dict(size=12, color="black"),
+        bgcolor="rgba(255, 255, 255, 0.7)",
         yshift=10  # Move text slightly above the marker
     )
 
