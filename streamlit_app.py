@@ -34,14 +34,14 @@ def preprocess_data():
     
     return weekly_max, monthly_max, product_mapping, data
 
-weekly_max, monthly_max, product_mapping, full_data = preprocess_data()
+weekly_max, monthly_max, product_mapping, data = preprocess_data()
 
 # Sidebar filter for Pareto classification
-pareto_options = full_data['New Pareto A-D (Monthly)'].dropna().unique()
+pareto_options = data['New Pareto A-D (Monthly)'].dropna().unique()
 selected_pareto = st.sidebar.selectbox("Select Pareto Class", pareto_options)
 
 # Filter products based on selected Pareto class
-filtered_products = full_data.loc[full_data['New Pareto A-D (Monthly)'] == selected_pareto, 'Product ID'].unique()
+filtered_products = data.loc[data['New Pareto A-D (Monthly)'] == selected_pareto, 'Product ID'].unique()
 product_id = st.sidebar.selectbox("Select Product ID", filtered_products)
 
 timeframe = st.sidebar.radio("Select Timeframe", ['Weekly', 'Monthly'])
