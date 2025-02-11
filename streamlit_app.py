@@ -2,8 +2,11 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+# Title (smaller than st.title)
+st.markdown("<h2 style='text-align: center;'>🏭  Beginning Stock + Max Inbound PO Qty</h2>", unsafe_allow_html=True)
+
 # Streamlit title
-st.header("🏭  Beginning Stock + Max Inbound PO Qty")
+#st.header("🏭  Beginning Stock + Max Inbound PO Qty")
 
 # Load and optimize data
 @st.cache_data
@@ -84,7 +87,10 @@ timeframe = st.sidebar.radio("Select Timeframe", ['Weekly', 'Monthly'])
 
 # Product name
 title_product_name = product_mapping.get(product_id, "Unknown Product")
-st.markdown(f"### Product: {title_product_name} (ID: {product_id})")
+st.markdown(f"<h5> Product: {title_product_name} (ID: {product_id})")
+
+# Use st.empty() to only refresh the graph
+graph_placeholder = st.empty()
 
 # Filter data
 if timeframe == 'Weekly':
@@ -100,5 +106,5 @@ data = data.sort_values(x_col).iloc[-50:]
 # Plot
 fig = px.line(data, x=x_col, y='Max Total Qty Daily (Beginning + PO)', 
               title=f'Max Total Qty for {title_product_name} ({product_id})', markers=True)
-st.plotly_chart(fig)
+graph_placeholder.plotly_chart(fig)
 
