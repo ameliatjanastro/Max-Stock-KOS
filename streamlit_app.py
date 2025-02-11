@@ -28,8 +28,8 @@ def preprocess_data():
     data['Week'] = data['Date'] - pd.to_timedelta(data['Date'].dt.weekday, unit='D')
     data['Month'] = data['Date'].dt.strftime('%b-%y')
     
-    weekly_max = data.groupby(['Product ID', 'Week'])['Total Qty Day'].max().reset_index()
-    monthly_max = data.groupby(['Product ID', 'Month'])['Total Qty Day'].max().reset_index()
+    weekly_max = data.groupby(['Product ID', 'Week'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
+    monthly_max = data.groupby(['Product ID', 'Month'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
     product_mapping = data[['Product ID', 'Product Name']].drop_duplicates().set_index('Product ID')['Product Name'].to_dict()
     
     return weekly_max, monthly_max, product_mapping, data
