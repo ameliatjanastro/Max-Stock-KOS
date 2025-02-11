@@ -87,7 +87,7 @@ timeframe = st.sidebar.radio("Select Timeframe", ['Weekly', 'Monthly'])
 
 # Product name
 title_product_name = product_mapping.get(product_id, "Unknown Product")
-st.markdown(f"<h5> Product: {title_product_name} (ID: {product_id})</h5>", unsafe_allow_html=True)
+#st.markdown(f"<h5> Product: {title_product_name} (ID: {product_id})</h5>", unsafe_allow_html=True)
 
 # Use st.empty() to only refresh the graph
 graph_placeholder = st.empty()
@@ -117,10 +117,11 @@ fig.update_layout(
 # Make marker values bold
 # Manually add bold annotations for marker values
 for i, row in data.iterrows():
+    qty = int(row['Max Total Qty Daily (Beginning + PO)'])
     fig.add_annotation(
         x=row[x_col], 
         y=row['Max Total Qty Daily (Beginning + PO)'], 
-        text=f"<b>{row['Max Total Qty Daily (Beginning + PO)']}</b>", 
+        text=f"<b>{qty}</b>",  # No decimals
         showarrow=False, 
         font=dict(size=12, color="black"),
         bgcolor="rgba(255, 255, 255, 0.7)",
