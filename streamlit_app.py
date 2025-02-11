@@ -23,7 +23,7 @@ def preprocess_data():
     for col in ['Start Available Stock', 'Inbound from PO', 'Inbound from SO Act Qty']:
         data[col] = pd.to_numeric(data[col], downcast='float')
     
-    data['Total Qty Day'] = data['Inbound from PO'] + data['Start Available Stock']
+    data['Max Total Qty Daily (Beginning + PO)'] = data['Inbound from PO'] + data['Start Available Stock']
     data['Date'] = pd.to_datetime(data['Date'])
     data['Week'] = data['Date'] - pd.to_timedelta(data['Date'].dt.weekday, unit='D')
     data['Month'] = data['Date'].dt.strftime('%b-%y')
@@ -71,17 +71,17 @@ st.markdown(f"### Product: {title_product_name} (ID: {product_id})")
 
 # Filter data
 if timeframe == 'Weekly':
-    data = weekly_max.loc[weekly_max['Product ID'] == product_id, ['Week', 'Total Qty Day']]
+    data = weekly_max.loc[weekly_max['Product ID'] == product_id, ['Week', 'Max Total Qty Daily (Beginning + PO)']]
     x_col = 'Week'
 else:
-    data = monthly_max.loc[monthly_max['Product ID'] == product_id, ['Month', 'Total Qty Day']]
+    data = monthly_max.loc[monthly_max['Product ID'] == product_id, ['Month', 'Max Total Qty Daily (Beginning + PO)']]
     x_col = 'Month'
 
 # Limit number of points
 data = data.sort_values(x_col).iloc[-50:]
 
 # Plot
-fig = px.line(data, x=x_col, y='Max Total Qty Daily(Beginning + PO)', 
+fig = px.line(data, x=x_col, y='Max Total Qty Daily (Beginning + PO)', 
               title=f'Max Total Qty for {title_product_name} ({product_id})', markers=True)
 st.plotly_chart(fig)
 
