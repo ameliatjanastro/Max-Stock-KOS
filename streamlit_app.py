@@ -109,7 +109,7 @@ fig = px.line(data, x=x_col, y='Max Total Qty Daily (Beginning + PO)',
 
 # Set x-axis tick format dynamically
 fig.update_layout(
-    height=450,  # Reduce height slightly
+    height=350,  # Reduce height slightly
     margin=dict(l=10, r=10, t=30, b=10),
     xaxis=dict(
         tickformat="%b %Y" if timeframe == 'Monthly' else "%d %b %Y"
