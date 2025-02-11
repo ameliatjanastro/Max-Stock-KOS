@@ -14,7 +14,7 @@ def preprocess_data():
                                dtype={'Product ID': 'category', 'Product Name': 'string'})
     
     # Load Pareto classification
-    pareto_data = pd.read_csv('dash jan.csv', usecols=['Product ID', 'New Pareto A-D (Monthly)'],
+    pareto_data = pd.read_excel('dash_jan pareto.xlsx', usecols=['Product ID', 'New Pareto A-D (Monthly)'],
                                  dtype={'Product ID': 'category'})
     
     # Merge datasets
