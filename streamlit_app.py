@@ -26,10 +26,14 @@ def preprocess_data():
     data['Max Total Qty Daily (Beginning + PO)'] = data['Inbound from PO'] + data['Start Available Stock']
     data['Date'] = pd.to_datetime(data['Date'])
     data['Week'] = data['Date'] - pd.to_timedelta(data['Date'].dt.weekday, unit='D')
-    data['Month'] = data['Date'].dt.strftime('%b-%y')
+    data['Month'] = data['Date'].dt.to_period('M') 
+    data['Month_str'] = data['Month'].dt.strftime('%b-%y')
     
     weekly_max = data.groupby(['Product ID', 'Week'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
     monthly_max = data.groupby(['Product ID', 'Month'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
+    # Ensure sorting by proper date
+    monthly_max = monthly_max.sort_values(by="Month")
+    monthly_max['Month'] = monthly_max['Month'].dt.strftime('%b-%y')
     product_mapping = data[['Product ID', 'Product Name']].drop_duplicates().set_index('Product ID')['Product Name'].to_dict()
     
     return weekly_max, monthly_max, product_mapping, data
