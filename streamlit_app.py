@@ -53,7 +53,7 @@ st.subheader(f"📌 Product: {title_product_name} (ID: {product_id})")
 # Filter data
 if timeframe == 'Weekly':
     data = weekly_max.loc[weekly_max['Product ID'] == product_id, ['Week', 'Total Qty Day']]
-    x_col = 'Week Start'
+    x_col = 'Week'
 else:
     data = monthly_max.loc[monthly_max['Product ID'] == product_id, ['Month', 'Total Qty Day']]
     x_col = 'Month'
