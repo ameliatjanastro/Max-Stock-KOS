@@ -87,7 +87,7 @@ timeframe = st.sidebar.radio("Select Timeframe", ['Weekly', 'Monthly'])
 
 # Product name
 title_product_name = product_mapping.get(product_id, "Unknown Product")
-st.markdown(f"<h5> Product: {title_product_name} (ID: {product_id})")
+st.markdown(f"<h5> Product: {title_product_name} (ID: {product_id})</h5>", unsafe_allow_html=True)
 
 # Use st.empty() to only refresh the graph
 graph_placeholder = st.empty()
