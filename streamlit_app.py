@@ -107,11 +107,12 @@ data = data.sort_values(x_col).iloc[-50:]
 fig = px.line(data, x=x_col, y='Max Total Qty Daily (Beginning + PO)', 
               title=f'Max Total Qty for {title_product_name} ({product_id})', markers=True)
 
-# Set x-axis tick format based on timeframe
-if timeframe == 'Monthly':
-    tick_format = "%b %Y"  # "Nov 2024"
-else:
-    tick_format = "%d %b %Y"  # "05 Feb 2025" (for weekly)
+# Set x-axis tick format dynamically
+fig.update_layout(
+    xaxis=dict(
+        tickformat="%b %Y" if timeframe == 'Monthly' else "%d %b %Y"
+    )
+)
 
 # Make marker values bold
 fig.update_traces(
@@ -120,5 +121,7 @@ fig.update_traces(
     texttemplate="<b>%{text}</b>"  # Bold text formatting
 )
 
-graph_placeholder.plotly_chart(fig)
+# Refresh only the graph, not the whole UI
+graph_placeholder.empty()
+graph_placeholder.plotly_chart(fig, use_container_width=True)
 
