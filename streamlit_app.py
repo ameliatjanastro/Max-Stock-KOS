@@ -3,7 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 # Title (smaller than st.title)
-st.markdown("<h4 style='text-align: center;'>🏭  Beginning Stock + Max Inbound PO Qty</h4>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: left;'>🏭  Beginning Stock + Max Inbound PO Qty</h3>", unsafe_allow_html=True)
 
 # Streamlit title
 #st.header("🏭  Beginning Stock + Max Inbound PO Qty")
