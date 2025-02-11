@@ -2,21 +2,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# Set page layout to wide
-st.set_page_config(layout="wide")
-
-# Reduce padding/margin using custom CSS
-st.markdown("""
-    <style>
-        .block-container { padding-top: 0rem; padding-bottom: 0rem; padding-left: 1rem; padding-right: 1rem; }
-        .stSidebar { width: 250px !important; } /* Narrower Sidebar */
-        h2 { font-size: 1.4rem !important; }  /* Smaller Title */
-        h4 { font-size: 1.1rem !important; }  /* Smaller Subheader */
-        h5 { font-size: 1rem !important; }  /* Smaller Labels */
-        .stPlotlyChart { height: 400px !important; } /* Reduce Plot Size */
-    </style>
-""", unsafe_allow_html=True)
-
 # Title (smaller than st.title)
 st.markdown("<h2 style='text-align: center;'>🏭  Beginning Stock + Max Inbound PO Qty</h2>", unsafe_allow_html=True)
 
@@ -128,12 +113,11 @@ if timeframe == 'Monthly':
 else:
     tick_format = "%d %b %Y"  # "05 Feb 2025" (for weekly)
 
-fig.update_layout(
-    height=400, 
-    margin=dict(l=10, r=10, t=10, b=10),  
-    xaxis=dict(
-        tickformat=tick_format  # Apply the correct format based on selection
-    )
+# Make marker values bold
+fig.update_traces(
+    text=data['Max Total Qty Daily (Beginning + PO)'],  # Add quantity text
+    textposition='top center',  # Position text above markers
+    texttemplate="<b>%{text}</b>"  # Bold text formatting
 )
 
 graph_placeholder.plotly_chart(fig)
