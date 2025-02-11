@@ -46,7 +46,7 @@ def preprocess_data():
     monthly_max = data.groupby(['Product ID', 'Month'])['Max Total Qty Daily (Beginning + PO)'].max().reset_index()
     # Ensure sorting by proper date
     monthly_max = monthly_max.sort_values(by="Month")
-    monthly_max['Month_str'] = monthly_max['Month'].dt.strftime('%b-%y')
+    monthly_max['Month'] = monthly_max['Month'].astype(str)
     product_mapping = data[['Product ID', 'Product Name']].drop_duplicates().set_index('Product ID')['Product Name'].to_dict()
     
     return weekly_max, monthly_max, product_mapping, data
