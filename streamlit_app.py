@@ -3,7 +3,7 @@ import plotly.express as px
 import streamlit as st
 
 # Streamlit title
-st.title("📊 Stock Analysis Dashboard")
+st.header("🏭  Beginning Stock + Max Inbound PO Qty")
 
 # Load and optimize data
 @st.cache_data
@@ -26,7 +26,7 @@ def preprocess_data():
     data['Total Qty Day'] = data['Inbound from PO'] + data['Start Available Stock']
     data['Date'] = pd.to_datetime(data['Date'])
     data['Week'] = data['Date'] - pd.to_timedelta(data['Date'].dt.weekday, unit='D')
-    data['Month'] = data['Date'].dt.strftime('%Y-%m')
+    data['Month'] = data['Date'].dt.strftime('%b-%y')
     
     weekly_max = data.groupby(['Product ID', 'Week'])['Total Qty Day'].max().reset_index()
     monthly_max = data.groupby(['Product ID', 'Month'])['Total Qty Day'].max().reset_index()
@@ -41,14 +41,33 @@ pareto_options = data['New Pareto A-D (Monthly)'].dropna().unique()
 selected_pareto = st.sidebar.selectbox("Select Pareto Class", pareto_options)
 
 # Filter products based on selected Pareto class
-filtered_products = data.loc[data['New Pareto A-D (Monthly)'] == selected_pareto, 'Product ID'].unique()
-product_id = st.sidebar.selectbox("Select Product ID", filtered_products)
+filtered_products_info = data.loc[data['New Pareto A-D (Monthly)'] == selected_pareto, ['Product ID', 'Product Name']]
+filtered_products_info = filtered_products_info.drop_duplicates()
 
+# Get total count of products under the selected Pareto class
+total_products = len(filtered_products_info)
+
+# Display total product count
+st.sidebar.markdown(f"**Total Products in {selected_pareto}: {total_products}**")
+
+# Create a dropdown format "Product ID - Product Name"
+filtered_products_info['Dropdown Label'] = filtered_products_info['Product ID'] + " - " + filtered_products_info['Product Name']
+
+# Map the selection back to Product ID
+product_dict = dict(zip(filtered_products_info['Dropdown Label'], filtered_products_info['Product ID']))
+
+# Sidebar searchable dropdown for selecting Product
+selected_label = st.sidebar.selectbox("Select Product", options=filtered_products_info['Dropdown Label'], index=0)
+
+# Extract the selected Product ID
+product_id = product_dict[selected_label]
+
+# Sidebar radio button for timeframe selection
 timeframe = st.sidebar.radio("Select Timeframe", ['Weekly', 'Monthly'])
 
 # Product name
 title_product_name = product_mapping.get(product_id, "Unknown Product")
-st.subheader(f"📌 Product: {title_product_name} (ID: {product_id})")
+st.markdown(f"### Product: {title_product_name} (ID: {product_id})")
 
 # Filter data
 if timeframe == 'Weekly':
@@ -62,7 +81,7 @@ else:
 data = data.sort_values(x_col).iloc[-50:]
 
 # Plot
-fig = px.line(data, x=x_col, y='Total Qty Day', 
+fig = px.line(data, x=x_col, y='Max Total Qty Daily(Beginning + PO)', 
               title=f'Max Total Qty for {title_product_name} ({product_id})', markers=True)
 st.plotly_chart(fig)
 
